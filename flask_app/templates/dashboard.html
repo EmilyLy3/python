@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome {{session['user_first_name']}}!</h1>
+    <div class="links">
+        <a href="/add_painting">Add Painting</a>
+        <br>
+        <a href="/logout">Logout</a>
+    </div>
+    <br>
+    <div class="paintings">
+        <h3>Paintings</h3>
+        {% for painting in paintings %}
+        <p>
+            <a href="/paintings/{{painting.id}}">{{painting.title}}</a>
+            by {{painting.user.first_name}} {{painting.user.last_name}}
+            {% if session['user_id'] == painting.user_id %}
+            <a href="/edit_painting/{{painting.id}}">Edit</a> |
+            <a href="/delete_painting/{{painting.id}}">Delete</a>
+            {% endif %}
+        </p>
+        {% endfor %}
+    </div>
+    <br>
+    <div class="purchases">
+        <h3>Your Purchased Paintings</h3>
+        {% for purchase in purchases %}
+        <p>
+            <a href="/paintings/{{purchase.id}}">{{purchase.title}}</a>
+            by {{purchase.user.first_name}} {{purchase.user.last_name}}
+        </p>
+        {% endfor %}
+    </div>
+</body>
+</html>

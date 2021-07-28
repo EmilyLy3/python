@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Painting</title>
+</head>
+<body>
+    <div class="links">
+        <a href="/add_painting">Add Painting</a>
+        <br>
+        <a href="/dashboard">Dashboard</a>
+        <br>
+        <a href="/logout">Logout</a>
+    </div>
+    <h1>{{painting.title}}</h1>
+    <br>
+    <p>Painted by {{painting.user.first_name}} {{painting.user.last_name}}</p>
+    <br>
+    <p>Description:</p>
+    <p>{{painting.description}}</p>
+    <br>
+    <p>Price:</p>
+    <p>${{painting.price}}</p>
+    <br>
+    <p>Number Purchased:</p>
+    <p>{{painting.count}}</p>
+    <br>
+    {% if painting.count == painting.quantity %}
+        <p>SOLD OUT</p>
+        {% else %}
+        <form action="/buy_painting/{{painting.id}}" method="POST">
+            <input type="submit" value="Buy">
+        </form>
+    {% endif%}
+</body>
+</html>
