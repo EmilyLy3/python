@@ -134,9 +134,6 @@ class Painting:
 
         results = connectToMySQL('python_exam2').query_db(query, data)
 
-        print("HEREEEEEEEEEEE")
-        print(results)
-
         all_purchases = []
 
         for item in results:

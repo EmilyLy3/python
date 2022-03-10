@@ -4,38 +4,63 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
     <title>Dashboard</title>
 </head>
-<body>
-    <h1>Welcome {{session['user_first_name']}}!</h1>
-    <div class="links">
-        <a href="/add_painting">Add Painting</a>
-        <br>
-        <a href="/logout">Logout</a>
-    </div>
-    <br>
-    <div class="paintings">
+<body class="container mt-3">
+    <nav class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="text-primary">Welcome {{session['user_first_name']}}!</h1>
+        <div class="links d-flex">
+            <div class="me-3"><a href="/add_painting">Add Painting</a></div>
+            <div><a href="/logout">Logout</a></div>
+        </div>
+    </nav>
+    <div class="paintings mb-5">
         <h3>Paintings</h3>
-        {% for painting in paintings %}
-        <p>
-            <a href="/paintings/{{painting.id}}">{{painting.title}}</a>
-            by {{painting.user.first_name}} {{painting.user.last_name}}
-            {% if session['user_id'] == painting.user_id %}
-            <a href="/edit_painting/{{painting.id}}">Edit</a> |
-            <a href="/delete_painting/{{painting.id}}">Delete</a>
-            {% endif %}
-        </p>
-        {% endfor %}
+        {% if paintings == [] %}
+            <p>No paintings listed</p>
+        {% else %}
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for painting in paintings %}
+                    <tr>
+                        <td href="/paintings/{{painting.id}}">{{painting.title}}</td>
+                        <td>{{painting.user.first_name}} {{painting.user.last_name}}</td>
+                        {% if session['user_id'] == painting.user_id %}
+                        <td>
+                            <a href="/edit_painting/{{painting.id}}">Edit</a> |
+                            <a href="/delete_painting/{{painting.id}}">Delete</a>
+                        </td>
+                        {% else %}
+                        <td>
+                            <a href="/paintings/{{painting.id}}">View</a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+        {% endif %}
     </div>
-    <br>
     <div class="purchases">
         <h3>Your Purchased Paintings</h3>
-        {% for purchase in purchases %}
-        <p>
-            <a href="/paintings/{{purchase.id}}">{{purchase.title}}</a>
-            by {{purchase.user.first_name}} {{purchase.user.last_name}}
-        </p>
-        {% endfor %}
+        {% if purchases == [] %}
+            <p>No purchases made</p>
+        {% else %}
+            {% for purchase in purchases %}
+            <p>
+                <a href="/paintings/{{purchase.id}}">{{purchase.title}}</a>
+                by {{purchase.user.first_name}} {{purchase.user.last_name}}
+            </p>
+            {% endfor %}
+        {% endif %}
     </div>
 </body>
 </html>

@@ -113,4 +113,5 @@ def buy_painting(painting_id):
     }
 
     Painting.buy_painting(data)
-    return redirect(f'/paintings/{painting_id}')
+    return redirect('/dashboard')
+    # return redirect(f'/paintings/{painting_id}')
